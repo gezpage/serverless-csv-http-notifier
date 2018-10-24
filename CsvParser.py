@@ -1,0 +1,52 @@
+import csv
+import json
+from typing import List
+
+
+class CsvParser:
+    def __init__(self, delimiter=',', quotechar='"', skipinitialspace=True, strict=True):
+        """ Override default CSV reader defaults for different schema types """
+        self.delimiter = delimiter
+        self.quotechar = quotechar
+        self.skipinitialspace = skipinitialspace
+        self.strict = strict
+
+    def file_to_json_list(self, file: str) -> list:
+        """ Read a csv file from its path and return a list of JSON strings """
+        with open(file) as csv_data:
+            return self.__dict_to_json_list(self.__make_dict_reader(csv_data))
+
+    def string_to_json_list(self, string: str) -> list:
+        """ Convert a CSV multiline string to a list of JSON strings"""
+        iterator = iter(string.splitlines())
+        return self.__dict_to_json_list(self.__make_dict_reader(iterator))
+
+    @staticmethod
+    def __dict_to_json_list(dict_reader: csv.DictReader) -> list:
+        """ Convert a DictReader type to a list of JSON strings """
+        # TODO This could be refactored as a simple list(dict_reader)
+        json_list: List[str] = list()
+        for row in dict_reader:
+            json_list.append(json.dumps(row))
+        return json_list
+
+    def __make_dict_reader(self, f) -> csv.DictReader:
+        """ Instantiates a csv DictReader with parameters set during construction """
+        return csv.DictReader(
+            f,
+            delimiter=self.delimiter,
+            quotechar=self.quotechar,
+            skipinitialspace=self.skipinitialspace,
+            strict=self.strict
+        )
+
+
+if __name__ == '__main__':
+    parser = CsvParser()
+    csv_string = '''"First name", "Last name", "Email"
+    "Michal", "Przytulski", "mprzytulski@morneaushepell.com"
+    "Gez", "Page", "gezpage@gmail.com"'''
+    print("CSV File:")
+    print(parser.file_to_json_list("tests/testdata.csv"))
+    print("CSV String:")
+    print(parser.string_to_json_list(csv_string))
