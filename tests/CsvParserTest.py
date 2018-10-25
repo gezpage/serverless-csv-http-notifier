@@ -13,7 +13,7 @@ expected_output = [
 ]
 
 
-class TestCsvToJson(unittest.TestCase):
+class CsvParserTest(unittest.TestCase):
     def setUp(self):
         self.parser = CsvParser()
 

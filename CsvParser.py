@@ -4,8 +4,11 @@ from typing import List
 
 
 class CsvParser:
+    """ Uses the built in csv library to parse data from files or strings
+
+    Override default CSV reader defaults in constructor for different schema types
+    """
     def __init__(self, delimiter=',', quotechar='"', skipinitialspace=True, strict=True):
-        """ Override default CSV reader defaults for different schema types """
         self.delimiter = delimiter
         self.quotechar = quotechar
         self.skipinitialspace = skipinitialspace
@@ -44,8 +47,8 @@ class CsvParser:
 if __name__ == '__main__':
     parser = CsvParser()
     csv_string = '''"First name", "Last name", "Email"
-    "Michal", "Przytulski", "mprzytulski@morneaushepell.com"
-    "Gez", "Page", "gezpage@gmail.com"'''
+    "Dave", "Wells", "dwells@email.com"
+    "Dan", "Hardway", "dahardway@email.com"'''
     print("CSV File:")
     print(parser.file_to_json_list("tests/testdata.csv"))
     print("CSV String:")

@@ -6,6 +6,8 @@ name = "pypi"
 [dev-packages]
 
 [packages]
+requests = "*"
+"boto3" = "*"
 
 [requires]
 python_version = "3.6"

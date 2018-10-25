@@ -1,7 +1,7 @@
 import json
 import unittest
 
-from HttpJsonNotifier import HttpJsonNotifier
+from HttpNotifier import HttpNotifier
 
 
 class HttpJsonNotifierTest(unittest.TestCase):
@@ -9,11 +9,11 @@ class HttpJsonNotifierTest(unittest.TestCase):
         test_data = '{"test": "var"}'
 
         # Use 3rd party httpbin.org website to validate functionality
-        notifier = HttpJsonNotifier('http://httpbin.org/post')
-        response = notifier.post(test_data)
+        notifier = HttpNotifier('http://httpbin.org/post')
+        response = notifier.post_json_data(test_data)
 
         # Ensure we get a 200 OK response
-        self.assertEqual(200, response['status_code'])
+        self.assertEqual(200, response['statusCode'])
 
         # httpbin allows access to httpd body, so we can verify it was received
         self.assertEqual(test_data, json.loads(response['response'])['data'])
