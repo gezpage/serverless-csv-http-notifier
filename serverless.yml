@@ -24,10 +24,9 @@ package:
 
 functions:
   notifier:
-    handler: handler/handler.notifier
+    handler: handler/handler.handler
     environment:
       http_endpoint: http://httpbin.org/post
-#      http_endpoint: https://www.gezpage.com/test-endpoint.php
 
     events:
       - s3:

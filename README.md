@@ -45,8 +45,8 @@ You will need to deploy before you start testing as the S3 bucket will be create
 
 ### Testing
 
-Test event json files can be found in `data/json`. To use these you will need to ensure the bucket and filenames are 
-correct in the JSON, and that you have uploaded the test file to your S3 bucket (Test CSV data can be found in 
+Test event json files can be found in `data/json`. To use these you will need to *ensure the bucket and filenames are 
+correct in the JSON*, and that you have uploaded the test file to your S3 bucket (Test CSV data can be found in 
 `data/testdata.csv`).
 
 Now you can use the local event files to test locally with:
@@ -107,3 +107,4 @@ with these details. There are examples of invalid S3 files, which is useful for 
 - Remove dev / testing dependencies before deploy
 - Restrict S3 permissions in serverless.yml
 - Set up CI deployment pipeline
+- Look into dead letter queues for failures
