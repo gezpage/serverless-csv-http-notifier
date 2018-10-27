@@ -58,4 +58,5 @@ class HttpNotifierTest(unittest.TestCase):
 
         response = self.handler(event, context)
 
+        # TODO inspect request body to verify JSON
         self.assertEqual(200, response['statusCode'])
