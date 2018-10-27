@@ -8,11 +8,11 @@ class CsvParser:
 
     Override default CSV reader defaults in constructor for different schema types
     """
-    def __init__(self, delimiter=',', quotechar='"', skipinitialspace=True, strict=True):
+
+    def __init__(self, delimiter=',', quotechar='"', skipinitialspace=True):
         self.delimiter = delimiter
         self.quotechar = quotechar
         self.skipinitialspace = skipinitialspace
-        self.strict = strict
 
     def file_to_json_list(self, file: str) -> list:
         """ Read a csv file from its path and return a list of JSON strings """
@@ -22,15 +22,17 @@ class CsvParser:
     def string_to_json_list(self, string: str) -> list:
         """ Convert a CSV multiline string to a list of JSON strings"""
         iterator = iter(string.splitlines())
-        return self.__dict_to_json_list(self.__make_dict_reader(iterator))
+        dict_reader = self.__make_dict_reader(iterator)
+
+        return self.__dict_to_json_list(dict_reader)
 
     @staticmethod
     def __dict_to_json_list(dict_reader: csv.DictReader) -> list:
         """ Convert a DictReader type to a list of JSON strings """
-        # TODO This could be refactored as a simple list(dict_reader)
         json_list: List[str] = list()
         for row in dict_reader:
             json_list.append(json.dumps(row))
+
         return json_list
 
     def __make_dict_reader(self, f) -> csv.DictReader:
@@ -40,7 +42,7 @@ class CsvParser:
             delimiter=self.delimiter,
             quotechar=self.quotechar,
             skipinitialspace=self.skipinitialspace,
-            strict=self.strict
+            strict=True
         )
 
 
@@ -50,6 +52,6 @@ if __name__ == '__main__':
     "Dave", "Wells", "dwells@email.com"
     "Dan", "Hardway", "dahardway@email.com"'''
     print("CSV File:")
-    print(parser.file_to_json_list("tests/testdata.csv"))
+    print(parser.file_to_json_list("data/testdata.csv"))
     print("CSV String:")
     print(parser.string_to_json_list(csv_string))

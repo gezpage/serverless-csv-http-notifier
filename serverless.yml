@@ -3,7 +3,6 @@ service: csv-http-notifier
 provider:
   name: aws
   runtime: python3.6
-
   stage: dev
   region: eu-west-2
   iamRoleStatements:
@@ -24,36 +23,18 @@ package:
     - requirements.txt
 
 functions:
-
-  # Use a remote HTTP endpoint
-  remote_notifier:
-    handler: s3_handler.notifier
+  notifier:
+    handler: handler/handler.notifier
     environment:
-      http_endpoint: https://www.gezpage.com/test-endpoint.php
-
-  # Use a local HTTP endpoint on port 8010
-#  local_notifier:
-#    handler: handler.notifier
-#    environment:
-#      http_endpoint: http://localhost:8010
-
-  # Use a remote HTTP sink
-#  httpbin_notifier:
-#    handler: handler.notifier
-#    environment:
-#      http_endpoint: http://httpbin.org/post
+      http_endpoint: http://httpbin.org/post
+#      http_endpoint: https://www.gezpage.com/test-endpoint.php
 
     events:
       - s3:
-          bucket: gp-test-bucket-zzzz-4
+          bucket: serverless-s3-csv-to-json-notifier
           event: s3:ObjectCreated:*
           rules:
-#          - prefix: uploads/
           - suffix: .csv
 
 plugins:
   - serverless-python-requirements
-
-#custom:
-  #pythonRequirements:
-    #dockerizePip: true

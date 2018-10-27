@@ -1,6 +1,6 @@
 import unittest
 
-from CsvParser import CsvParser
+from handler.CsvParser import CsvParser
 
 csv_string = '''"First name", "Last name", "Email"
 "Michal", "Przytulski", "mprzytulski@morneaushepell.com"
@@ -14,12 +14,12 @@ expected_output = [
 
 
 class CsvParserTest(unittest.TestCase):
+    """ Use simple input and output strings to check JSON is correct
+
+    If other CSV schemas become supported, use a data provider with different CSV strings
+    """
     def setUp(self):
         self.parser = CsvParser()
 
     def test_csv_string(self):
         self.assertEqual(expected_output, self.parser.string_to_json_list(csv_string))
-
-    # def test_csv_file(self):
-    #     TODO Remove this test as it reads from disk - should be an integration test
-        # self.assertEqual(expected_output, self.parser.file_to_json_list("testdata.csv"))

@@ -3,11 +3,16 @@ from io import BytesIO
 from typing import List
 
 
-# TODO Reuse connections
-# TODO Throw exceptions on error
-# PyCurl implementation or JSON Notifier
-# (https://stackoverflow.com/questions/15461995/python-requests-vs-pycurl-performance)
 class HttpJsonPyCurlNotifier:
+    """ PyCurl notifier implementation
+
+    An alternative to using the Requests library, for performance reasons.
+    (https://stackoverflow.com/questions/15461995/python-requests-vs-pycurl-performance)
+
+    There are issues packaging this up during the Serverless deployment,
+    so this is unfinished and unused.
+    """
+
     def __init__(self, endpoint: str):
         self.endpoint = endpoint
 
@@ -18,6 +23,7 @@ class HttpJsonPyCurlNotifier:
         # Buffer pycurl output
         buffer = BytesIO()
 
+        # TODO Throw exceptions on error
         c = pycurl.Curl()
 
         # Configure JSON POST request
