@@ -1,20 +1,16 @@
 import logging
-import os
 from datetime import datetime
 
-from handler import s3
+from handler import s3, config
 from handler.CsvParser import CsvParser
 from handler.HttpNotifier import HttpNotifier
 
-# Configure logging
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-# Endpoint needs to be set as an environment var
-endpoint = os.environ.get('http_endpoint')
-logger.info('Notifier endpoint: ' + endpoint)
+logger.info('Notifier endpoint: ' + config.get_endpoint())
 
-http_notifier = HttpNotifier(endpoint)
+http_notifier = HttpNotifier(config.get_endpoint())
 parser = CsvParser()
 
 

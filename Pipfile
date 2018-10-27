@@ -9,6 +9,7 @@ name = "pypi"
 requests = "*"
 "boto3" = "*"
 requests-mock = "*"
+moto = "*"
 
 [requires]
 python_version = "3.6"
