@@ -3,13 +3,13 @@ import unittest
 from handler.CsvParser import CsvParser
 
 csv_string = '''"First name", "Last name", "Email"
-"Michal", "Przytulski", "mprzytulski@morneaushepell.com"
-"Gez", "Page", "gezpage@gmail.com"
+"Dave", "Banks", "dbanks@email.com"
+"George", "Digby", "gdigby@email.com"
 '''
 
 expected_output = [
-    '{"First name": "Michal", "Last name": "Przytulski", "Email": "mprzytulski@morneaushepell.com"}',
-    '{"First name": "Gez", "Last name": "Page", "Email": "gezpage@gmail.com"}'
+    '{"First name": "Dave", "Last name": "Banks", "Email": "dbanks@email.com"}',
+    '{"First name": "George", "Last name": "Digby", "Email": "gdigby@email.com"}'
 ]
 
 
@@ -22,4 +22,7 @@ class CsvParserTest(unittest.TestCase):
         self.parser = CsvParser()
 
     def test_csv_string(self):
-        self.assertEqual(expected_output, self.parser.string_to_json_list(csv_string))
+        json_list = self.parser.string_to_json_list(csv_string)
+
+        self.assertEqual(expected_output, json_list)
+        self.assertEqual(2, len(json_list))

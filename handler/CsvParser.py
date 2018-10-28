@@ -44,14 +44,3 @@ class CsvParser:
             skipinitialspace=self.skipinitialspace,
             strict=True
         )
-
-
-if __name__ == '__main__':
-    parser = CsvParser()
-    csv_string = '''"First name", "Last name", "Email"
-    "Dave", "Wells", "dwells@email.com"
-    "Dan", "Hardway", "dahardway@email.com"'''
-    print("CSV File:")
-    print(parser.file_to_json_list("data/testdata.csv"))
-    print("CSV String:")
-    print(parser.string_to_json_list(csv_string))

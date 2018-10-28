@@ -16,13 +16,13 @@ class Notifier:
     Message body will contain details on each file processed
     """
 
-    def __init__(self):
+    def __init__(self, http_endpoint):
         self.logger = logging.getLogger()
-        self.logger.setLevel(logging.INFO)
-        self.logger.info('Notifier endpoint: ' + config.get_endpoint())
+        self.logger.setLevel(config.get_logging_level())
+        self.logger.info('Notifier endpoint: ' + http_endpoint)
         self.s3 = S3()
         self.parser = CsvParser()
-        self.http_notifier = HttpNotifier(config.get_endpoint())
+        self.http_notifier = HttpNotifier(http_endpoint)
 
         self.status_code = 200
         self.processed = []
@@ -53,6 +53,10 @@ class Notifier:
             self.logger.info('Get file contents from S3')
             csv_data = self.s3.read_ascii_file(bucket, key)
 
+            if not csv_data:
+                self.__process_failed()
+                return
+
             self.logger.info('Parse CSV data: ' + csv_data)
             json_data = self.parser.string_to_json_list(csv_data)
 
@@ -73,6 +77,10 @@ class Notifier:
         for json_string in json_data:
             self.logger.info('Notifying HTTP endpoint')
             response = self.http_notifier.post_json_data(json_string)
+
+            if response['statusCode'] != 200:
+                self.__process_failed()
+
             self.logger.info(response)
             responses.append(response)
 
