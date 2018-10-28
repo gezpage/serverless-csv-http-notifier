@@ -37,9 +37,9 @@ class Notifier:
             bucket = s3_file['s3']['bucket']['name']
             key = s3_file['s3']['object']['key']
 
-            self.__process_file(bucket, key)
+            self._process_file(bucket, key)
 
-    def __process_file(self, bucket, key):
+    def _process_file(self, bucket, key):
         batch = {
             'time': str(datetime.utcnow()),
             'bucket': bucket,
@@ -54,24 +54,24 @@ class Notifier:
             csv_data = self.s3.read_ascii_file(bucket, key)
 
             if not csv_data:
-                self.__process_failed()
+                self._process_failed()
                 return
 
             self.logger.info('Parse CSV data: ' + csv_data)
             json_data = self.parser.string_to_json_list(csv_data)
 
-            batch['items'] = self.__notify_http_endpoint(json_data)
+            batch['items'] = self._notify_http_endpoint(json_data)
 
         except Exception as e:
             batch['error'] = str(e)
             self.logger.error('Exception caught: ' + str(e))
-            self.__process_failed()
+            self._process_failed()
         self.processed.append(batch)
 
-    def __process_failed(self):
+    def _process_failed(self):
         self.status_code = 500
 
-    def __notify_http_endpoint(self, json_data):
+    def _notify_http_endpoint(self, json_data):
         responses = []
 
         for json_string in json_data:
@@ -79,7 +79,7 @@ class Notifier:
             response = self.http_notifier.post_json_data(json_string)
 
             if response['statusCode'] != 200:
-                self.__process_failed()
+                self._process_failed()
 
             self.logger.info(response)
             responses.append(response)

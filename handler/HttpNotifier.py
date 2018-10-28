@@ -56,7 +56,7 @@ class HttpNotifier:
 if __name__ == "__main__":
     """ Use a list of JSON strings against a test HTTP sink """
     test_data: List[str] = ['{"test":"var"}', '{"another_test":"another_var"}']
-    notifier = HttpNotifier('http://httpbin.org/post')
+    notifier = HttpNotifier('https://httpbin.org/post')
     for row in test_data:
         r = notifier.post_json_data(row)
         print(r)

@@ -17,7 +17,10 @@ class CsvParserTest(unittest.TestCase):
     """ Use simple input and output strings to check JSON is correct
 
     If other CSV schemas become supported, use a data provider with different CSV strings
+
+    TODO Test file_to_json_list with mocked open() builtin
     """
+
     def setUp(self):
         self.parser = CsvParser()
 

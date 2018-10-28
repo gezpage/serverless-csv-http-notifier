@@ -17,17 +17,17 @@ class CsvParser:
     def file_to_json_list(self, file: str) -> list:
         """ Read a csv file from its path and return a list of JSON strings """
         with open(file) as csv_data:
-            return self.__dict_to_json_list(self.__make_dict_reader(csv_data))
+            return self._dict_to_json_list(self._make_dict_reader(csv_data))
 
     def string_to_json_list(self, string: str) -> list:
         """ Convert a CSV multiline string to a list of JSON strings"""
         iterator = iter(string.splitlines())
-        dict_reader = self.__make_dict_reader(iterator)
+        dict_reader = self._make_dict_reader(iterator)
 
-        return self.__dict_to_json_list(dict_reader)
+        return self._dict_to_json_list(dict_reader)
 
     @staticmethod
-    def __dict_to_json_list(dict_reader: csv.DictReader) -> list:
+    def _dict_to_json_list(dict_reader: csv.DictReader) -> list:
         """ Convert a DictReader type to a list of JSON strings """
         json_list: List[str] = list()
         for row in dict_reader:
@@ -35,7 +35,7 @@ class CsvParser:
 
         return json_list
 
-    def __make_dict_reader(self, f) -> csv.DictReader:
+    def _make_dict_reader(self, f) -> csv.DictReader:
         """ Instantiates a csv DictReader with parameters set during construction """
         return csv.DictReader(
             f,

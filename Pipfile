@@ -4,12 +4,12 @@ verify_ssl = true
 name = "pypi"
 
 [dev-packages]
+requests-mock = "*"
+moto = "*"
 
 [packages]
 requests = "*"
 "boto3" = "*"
-requests-mock = "*"
-moto = "*"
 
 [requires]
 python_version = "3.6"

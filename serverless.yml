@@ -26,7 +26,7 @@ functions:
   notifier:
     handler: handler/handler.handler
     environment:
-      http_endpoint: http://httpbin.org/post
+      http_endpoint: https://httpbin.org/post
 
     events:
       - s3:

@@ -1,11 +1,11 @@
 import unittest
 
-import requests_mock
+from requests_mock import Mocker as mock_requests
 
 from handler.HttpNotifier import HttpNotifier
 
 
-@requests_mock.Mocker()
+@mock_requests()
 class HttpNotifierTest(unittest.TestCase):
     def setUp(self):
         self.sut = HttpNotifier('http://test.com')

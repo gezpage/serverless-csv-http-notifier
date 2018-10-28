@@ -10,7 +10,7 @@ fully deployed:
 - UTF-8 text file is uploaded to a specified S3 bucket containing CSV data (must have a .csv file extension)
 - Lambda Python 3.5 function is triggered
 - The handler code is called, which uses the boto3 library to retrieve the S3 file contents as a string value
-- It is then transformed into a number JSON strings 
+- It is then transformed into a number of JSON strings 
 - For each JSON string an HTTP POST is made to a specified endpoint with JSON as the request body
 - Processing is complete once all the files are processed and all HTTP requests are made
 
@@ -31,7 +31,7 @@ In `serverless.yml` you can set the HTTP POST endpoint that the application will
 
     function > notifier > handler > environment > http_endpoint
     
-By default this is set to use the http://httpbin.org HTTP sink for testing.
+By default this is set to use the https://httpbin.org HTTP sink for testing.
 
 You will also find the S3 bucket name that *must* be changed to avoid a collision with an existing bucket:
 
@@ -81,7 +81,7 @@ Unit tests can be found in the `tests` folder, to run them use:
 
     python -m unittest -v tests/*
     
-In order to test invoke the solution locally, without deploying to AWS, you are able to use the “test_data/testdata.json” 
+In order to invoke the solution locally, without deploying to AWS, you are able to use the “data/json/testdata.json” 
 file with the serverless invoke subcommand. You will need a valid S3 bucket and file to already exist, and update the file 
 with these details. There are examples of invalid S3 files, which is useful for testing for failure handling.
 
