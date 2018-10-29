@@ -42,6 +42,8 @@ You will also find the S3 bucket name that *must* be changed to avoid a collisio
 You will need to deploy before you start testing as the S3 bucket will be created, that you need to test:
 
     sls deploy
+    
+The Lambda function will be triggered by a .csv file upload to the S3 bucket designated in the `serverless.yml` file.
 
 ### Testing
 
@@ -75,26 +77,29 @@ Exceptions are used where possible. To prevent failures from causing the applica
 finished, exceptions are handled and logged, and then processing continues. The main handler response will be 200 on 
 complete success, or in the event of any failures during the process, it will return 500.
 
-## Tests
+## Unit Tests
 
-Unit tests can be found in the `tests` folder, to run them use:
+Unit tests can be found in the `tests/unit` folder, to run them use:
 
-    python -m unittest -v tests/*
+    python -m unittest -v tests/unit/*
     
-In order to invoke the solution locally, without deploying to AWS, you are able to use the “data/json/testdata.json” 
-file with the serverless invoke subcommand. You will need a valid S3 bucket and file to already exist, and update the file 
-with these details. There are examples of invalid S3 files, which is useful for testing for failure handling.
+### Integration Tests
+
+An end to end integration test can be found in the `tests/integration` folder, to run it use:
+
+    python -m unittest -v tests/integration/*
+    
+Note: There is currently an error relating to an unclosed socker connection that needs investigating, but the test passes.
 
 ## Future Improvements
 
 - Move uploaded files to “processed” or “failed” buckets or folders after processing
 - Look at replacing Python Requests with a more performant HTTP library, perhaps PyCurl
 - Look into using Placebo / moto for boto testing
-- Enrich tests with data provider or test data factory
+- Enrich tests with data provider or pytest fixtures
 - Attempt to minimise size of zip package
 - Performance benchmarking at scale if needed
 - Look into standardising Python project layout
-- Unsure if leaving the per-file `__main__` tests are a good idea - but useful for development
 - If needed, allow for different CSV schema types; single quoted values / no quotes / different line endings etc.
 - Refactor to allow for different data sources / triggers
 

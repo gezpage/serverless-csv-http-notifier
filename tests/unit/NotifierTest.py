@@ -5,35 +5,28 @@ from requests_mock import Mocker as mock_requests
 
 from handler.Notifier import Notifier
 
-
-def valid_s3_file_contents():
-    """ The mock data to be returned by s3.read_ascii_file """
-    return '''"First name", "Last name", "Email"
+# The mock data to be returned by s3.read_ascii_file
+valid_s3_file_contents = '''"First name", "Last name", "Email"
     "Dave", "Banks", "davebanks@email.com"
     "Grant", "Davis", "grantdavis@email.com"'''
 
+# The mock data to be returned by s3.read_ascii_file
+invalid_s3_file_contents = ''
 
-def invalid_s3_file_contents():
-    """ The mock data to be returned by s3.read_ascii_file """
-    return ''
-
-
-def records_data():
-    """ Records normally provided in the event from s3 trigger source
-    Values here are not important as the s3 call is mocked
-    """
-    return [
-        {
-            "s3": {
-                "bucket": {
-                    "name": "some-bucket",
-                },
-                "object": {
-                    "key": "testdata.csv",
-                }
+# Records normally provided in the event from s3 trigger source
+# here are not important as the s3 call is mocked
+records_data = [
+    {
+        "s3": {
+            "bucket": {
+                "name": "some-bucket",
+            },
+            "object": {
+                "key": "testdata.csv",
             }
         }
-    ]
+    }
+]
 
 
 class NotifierTest(unittest.TestCase):
@@ -54,9 +47,9 @@ class NotifierTest(unittest.TestCase):
         Mocking the s3.read_ascii_file function to return test CSV data
         """
         m.post('http://test.com', text='OK')
-        read_ascii_file.return_value = valid_s3_file_contents()
+        read_ascii_file.return_value = valid_s3_file_contents
 
-        self.notifier.process(records_data())
+        self.notifier.process(records_data)
 
         processed = self.notifier.processed
 
@@ -75,8 +68,10 @@ class NotifierTest(unittest.TestCase):
 
         # Ensure 2 (mocked) requests were made with expected JSON
         self.assertEqual(2, len(requests))
-        self.assertEqual('{"First name": "Dave", "Last name": "Banks", "Email": "davebanks@email.com"}', requests[0].text)
-        self.assertEqual('{"First name": "Grant", "Last name": "Davis", "Email": "grantdavis@email.com"}', requests[1].text)
+        self.assertEqual('{"First name": "Dave", "Last name": "Banks", "Email": "davebanks@email.com"}',
+                         requests[0].text)
+        self.assertEqual('{"First name": "Grant", "Last name": "Davis", "Email": "grantdavis@email.com"}',
+                         requests[1].text)
 
     @patch('handler.S3.S3.read_ascii_file')
     def test_processing_invalid_csv_data(self, read_ascii_file):
@@ -84,9 +79,9 @@ class NotifierTest(unittest.TestCase):
 
         Mock with an invalid (empty) CSV string
         """
-        read_ascii_file.return_value = invalid_s3_file_contents()
+        read_ascii_file.return_value = invalid_s3_file_contents
 
-        self.notifier.process(records_data())
+        self.notifier.process(records_data)
 
         processed = self.notifier.processed
 
