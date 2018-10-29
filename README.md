@@ -83,7 +83,7 @@ Unit tests can be found in the `tests/unit` folder, to run them use:
 
     python -m unittest -v tests/unit/*
     
-### Integration Tests
+## Integration Tests
 
 An end to end integration test can be found in the `tests/integration` folder, to run it use:
 
