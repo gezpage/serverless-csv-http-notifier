@@ -1,4 +1,4 @@
-# JSON Notifier
+# Serverless CSV HTTP Notifier
 
 Built using the [Serverless](https://serverless.com) application framework.
 
