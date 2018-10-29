@@ -1,8 +1,8 @@
 import unittest
 import uuid
-from mock import patch
 
 import boto3
+from mock import patch
 
 from handler.handler import handler
 
@@ -16,23 +16,25 @@ class HandlerTest(unittest.TestCase):
         self.event = self._create_test_event_data()
         self.context = self._create_test_context_data()
 
+    def tearDown(self):
+        self._delete_temp_s3_bucket()
+
     @patch('handler.config.get_endpoint')
     def test_handler_end_to_end(self, http_endpoint):
         """ End to end integration test for the Lambda handler
 
-        Patches the function to get the http endpoint since I can't seem to set an environment var
+        Patches the config function to get the http endpoint since I can't seem to set an environment var
         Creates a temporary S3 bucket and uploads a test CSV file
-        Runs the handler and makes a live HTTP request to httpbin.org
+        Executes the handler function and makes a live HTTP request to httpbin.org
         Asserts we get a 200 OK response
         Deletes the S3 bucket
+
+        TODO: Fix the "ResourceWarning: unclosed ssl.SSLSocket" error
         """
         http_endpoint.return_value = 'https://httpbin.org/post'
         response = handler(self.event, self.context)
 
         self.assertEqual(200, response['statusCode'])
-
-    def tearDown(self):
-        self._delete_temp_s3_bucket()
 
     def _create_temp_s3_bucket(self):
         bucket_name = 'json-notifier-test-bucket-' + str(uuid.uuid4())
