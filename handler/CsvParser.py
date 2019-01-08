@@ -9,7 +9,7 @@ class CsvParser:
     Override default CSV reader defaults in constructor for different schema types
     """
 
-    def __init__(self, delimiter=',', quotechar='"', skipinitialspace=True):
+    def __init__(self, delimiter=",", quotechar='"', skipinitialspace=True):
         self.delimiter = delimiter
         self.quotechar = quotechar
         self.skipinitialspace = skipinitialspace
@@ -42,5 +42,5 @@ class CsvParser:
             delimiter=self.delimiter,
             quotechar=self.quotechar,
             skipinitialspace=self.skipinitialspace,
-            strict=True
+            strict=True,
         )

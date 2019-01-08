@@ -2,14 +2,14 @@ import unittest
 
 from handler.CsvParser import CsvParser
 
-csv_string = '''"First name", "Last name", "Email"
+csv_string = """"First name", "Last name", "Email"
 "Dave", "Banks", "dbanks@email.com"
 "George", "Digby", "gdigby@email.com"
-'''
+"""
 
 expected_output = [
     '{"First name": "Dave", "Last name": "Banks", "Email": "dbanks@email.com"}',
-    '{"First name": "George", "Last name": "Digby", "Email": "gdigby@email.com"}'
+    '{"First name": "George", "Last name": "Digby", "Email": "gdigby@email.com"}',
 ]
 
 

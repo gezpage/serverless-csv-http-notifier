@@ -14,9 +14,6 @@ def handler(event, context):
     """
 
     notifier = Notifier(config.get_endpoint())
-    notifier.process(event['Records'])
+    notifier.process(event["Records"])
 
-    return {
-        "statusCode": notifier.status_code,
-        "body": notifier.processed
-    }
+    return {"statusCode": notifier.status_code, "body": notifier.processed}
