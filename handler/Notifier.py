@@ -4,7 +4,7 @@ from datetime import datetime
 from handler import config
 from handler.CsvParser import CsvParser
 from handler.HttpNotifier import HttpNotifier
-from handler.S3 import S3
+from handler.s3 import S3
 
 
 class Notifier:

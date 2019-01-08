@@ -39,7 +39,7 @@ class NotifierTest(unittest.TestCase):
         self.notifier = Notifier('http://test.com')
 
     @mock_requests()
-    @patch('handler.S3.S3.read_ascii_file')
+    @patch('handler.s3.S3.read_ascii_file')
     def test_processing_valid_csv_data_and_notifying_endpoint(self, m, read_ascii_file):
         """ Notifier test success
 
@@ -73,7 +73,7 @@ class NotifierTest(unittest.TestCase):
         self.assertEqual('{"First name": "Grant", "Last name": "Davis", "Email": "grantdavis@email.com"}',
                          requests[1].text)
 
-    @patch('handler.S3.S3.read_ascii_file')
+    @patch('handler.s3.S3.read_ascii_file')
     def test_processing_invalid_csv_data(self, read_ascii_file):
         """ Notifier test failure
 
